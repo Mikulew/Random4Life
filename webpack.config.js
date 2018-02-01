@@ -4,6 +4,7 @@ module.exports = {
 
     entry: path.resolve(__dirname, 'src') + '/app/index.js',
     output: {
+        publicPath: "/dist/",
         path: path.resolve(__dirname, 'dist') + '/app',
         filename: 'bundle.js',
         publicPath: '/app/'
@@ -13,14 +14,21 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: path.resolve(__dirname, 'src'),
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react', 'es2015']
-                }
+                exclude: /(node_modules)/,
+                use: {
+                    loader:'babel-loader',
+                    options: {
+                        presets: ['react', 'es2015']
+                    }
+                },
             },
             {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                test: /\.scss$/,
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' },
+                    { loader: 'sass-loader' }
+                ],
             }
         ]
     }
